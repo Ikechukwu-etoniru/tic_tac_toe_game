@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tic_toe_game/screen/select_difficulty_screen.dart';
-import 'package:tic_toe_game/screen/single_player_game_screen.dart';
 import 'package:tic_toe_game/widgets/gamescreen_title_container.dart';
 
 import '/widgets/glowing_button.dart';

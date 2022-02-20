@@ -85,7 +85,10 @@ class _GlowingButtonState extends State<GlowingButton> {
           child: Text(
             widget.text,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                color: Colors.white, 
+                fontWeight: FontWeight.bold, 
+                fontSize: 20,
+                fontFamily: 'Quicksand'),
           ),
         ),
       ),

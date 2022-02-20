@@ -6,7 +6,12 @@ class GameTitleContainer extends StatelessWidget {
   TextSpan colorText(String text, Color color) {
     return TextSpan(
       text: text,
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 80, color: color),
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 80,
+        color: color,
+        fontFamily: 'Raleway',
+      ),
     );
   }
 
