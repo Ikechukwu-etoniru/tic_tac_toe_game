@@ -62,6 +62,10 @@ flutter:
     - images/easy_pic.png
     - images/medium_pic.png
     - images/hard_pic.png
+    - images/o_pic.png
+    - images/x_pic.png
+    - images/player_pic.png
+    - images/computer_pic.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
