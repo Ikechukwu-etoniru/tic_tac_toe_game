@@ -126,7 +126,7 @@ class _SelectDifficultyContainerState extends State<SelectDifficultyContainer> {
         Future.delayed(const Duration(milliseconds: 80), () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) => SinglePlayerGameSCreen(
+              builder: (ctx) => SinglePlayerGameScreen(
                 difficulty: widget.difficulty,
               ),
             ),
@@ -163,7 +163,7 @@ class _SelectDifficultyContainerState extends State<SelectDifficultyContainer> {
                   width: widget.height * 0.64,
                   child: Image.asset(
                     widget.imageText,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

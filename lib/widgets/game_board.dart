@@ -1,56 +1,59 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:tic_toe_game/screen/select_difficulty_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:tic_toe_game/provider/score_data.dart';
+import 'package:tic_toe_game/widgets/game_board_buttons.dart';
 
+import '/screen/select_difficulty_screen.dart';
 import '/screen/game_screen.dart';
 import '/widgets/custom_dialog.dart';
 import '/models/game_tile_model.dart';
 
 class GameBoard extends StatefulWidget {
   final Difficulty difficulty;
-  const GameBoard(this.difficulty,{Key? key}) : super(key: key);
+  const GameBoard(this.difficulty, {Key? key}) : super(key: key);
 
   @override
   _GameBoardState createState() => _GameBoardState();
 }
 
 class _GameBoardState extends State<GameBoard> {
-  late List<GameTileModel> buttonList;
+  late List<GameTileModel> _buttonList;
 
-  late List<int> player1;
-  late List<int> player2;
-  var activePlayer;
+  late List<int> _player1;
+  late List<int> _player2;
+  var _activePlayer;
 
   @override
   void initState() {
     super.initState();
-    buttonList = initiateBoard();
+    _buttonList = _initiateBoard();
   }
 
-  List<GameTileModel> initiateBoard() {
-    player1 = [];
-    player2 = [];
-    activePlayer = 1;
+  List<GameTileModel> _initiateBoard() {
+    _player1 = [];
+    _player2 = [];
+    _activePlayer = 1;
     return List<GameTileModel>.generate(
       9,
       (index) => GameTileModel(id: index + 1),
     );
   }
 
-  void playGame(GameTileModel tile) async {
+  void _playGame(GameTileModel tile) async {
     setState(() {
-      if (activePlayer == 1) {
+      if (_activePlayer == 1) {
         // add x to the board
         tile.text = 'X';
         // chnage player to 2
-        activePlayer = 2;
+        _activePlayer = 2;
         // add tile id to my player list
-        player1.add(tile.id);
+        _player1.add(tile.id);
       } else {
         tile.text = 'O';
-        activePlayer = 1;
-        player2.add(tile.id);
+        _activePlayer = 1;
+        _player2.add(tile.id);
       }
       // disable button
       tile.isEnabled = true;
@@ -60,40 +63,44 @@ class _GameBoardState extends State<GameBoard> {
     int winner = await checkWinner();
 
     if (winner == 1) {
+      // Update scores
+      Provider.of<ScoreData>(context, listen: false)
+          .playerAdd(1, widget.difficulty);
       showDialog(
           context: context,
           builder: (ctx) {
             return CustomDialog(
-                title: 'Player $winner won', restartGame: restartGame);
+                title: 'You won this round', restartGame: _restartGame);
           });
     } else if (winner == 2) {
+      // Update scores
+      Provider.of<ScoreData>(context, listen: false)
+          .computerAdd(1, widget.difficulty);
       showDialog(
           context: context,
           builder: (ctx) {
             return CustomDialog(
-                title: 'Player $winner won', restartGame: restartGame);
+                title: 'Computer won this round', restartGame: _restartGame);
           });
     } else if (winner == -1 &&
-        buttonList.every((element) => element.isEnabled == true)) {
+        _buttonList.every((element) => element.isEnabled == true)) {
       showDialog(
           context: context,
           builder: (ctx) {
             return CustomDialog(
-                title: 'Undecided Game', restartGame: restartGame);
+                title: 'Undecided Game', restartGame: _restartGame);
           });
     } // adding ai logic
-    else if (activePlayer == 2 && widget.difficulty == Difficulty.medium) {
-      mediumAiPlay();
-    } else if (activePlayer == 2 && widget.difficulty == Difficulty.easy) {
-      easyAiPlay();
-    } else if (activePlayer == 2 && widget.difficulty == Difficulty.hard) {
-      easyAiPlay();
+    else if (_activePlayer == 2 && widget.difficulty == Difficulty.medium) {
+      _mediumAiPlay();
+    } else if (_activePlayer == 2 && widget.difficulty == Difficulty.easy) {
+      _easyAiPlay();
+    } else if (_activePlayer == 2 && widget.difficulty == Difficulty.hard) {
+      _hardAiPlay();
     }
-
-
   }
 
-  void easyAiPlay() {
+  void _easyAiPlay() {
     Future.delayed(const Duration(seconds: 1), () {
       List<int> emptyTiles = [];
       List<int> list = List.generate(9, (index) {
@@ -101,7 +108,7 @@ class _GameBoardState extends State<GameBoard> {
       });
 
       for (var element in list) {
-        if (!(player1.contains(element) || player2.contains(element))) {
+        if (!(_player1.contains(element) || _player2.contains(element))) {
           emptyTiles.add(element);
         }
       }
@@ -112,14 +119,14 @@ class _GameBoardState extends State<GameBoard> {
       } else {
         var randomIndex = random.nextInt(emptyTiles.length);
         var tileId = emptyTiles[randomIndex];
-        var aiTile = buttonList.indexWhere((element) => element.id == tileId);
+        var aiTile = _buttonList.indexWhere((element) => element.id == tileId);
 
-        playGame(buttonList[aiTile]);
+        _playGame(_buttonList[aiTile]);
       }
     });
   }
 
-  void mediumAiPlay() async {
+  void _mediumAiPlay() async {
     await Future.delayed(const Duration(seconds: 1));
     List<int> emptyTiles = [];
     List<int> list = List.generate(9, (index) {
@@ -127,7 +134,7 @@ class _GameBoardState extends State<GameBoard> {
     });
 
     for (var element in list) {
-      if (!(player1.contains(element) || player2.contains(element))) {
+      if (!(_player1.contains(element) || _player2.contains(element))) {
         emptyTiles.add(element);
       }
     }
@@ -143,110 +150,163 @@ class _GameBoardState extends State<GameBoard> {
       } else {
         var randomIndex = random.nextInt(emptyTiles.length);
         var tileId = emptyTiles[randomIndex];
-        var aiTile = buttonList.indexWhere((element) => element.id == tileId);
+        var aiTile = _buttonList.indexWhere((element) => element.id == tileId);
 
-        playGame(buttonList[aiTile]);
+        _playGame(_buttonList[aiTile]);
       }
-    } else if (winning.length> 1) {
+    } else if (winning.length > 1) {
       // AI block or win logic
-      playGame(buttonList[(winning[1]) - 1]);
+      _playGame(_buttonList[(winning[1]) - 1]);
     } else {
-      playGame(buttonList[(winning[0]) - 1]);
+      _playGame(_buttonList[(winning[0]) - 1]);
     }
+  }
 
-    
+  void _hardAiPlay() async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    // get all the free space on the board
+    List<int> emptyTiles = [];
+    List<int> list = List.generate(9, (index) {
+      return index + 1;
+    });
+
+    for (var element in list) {
+      if (!(_player1.contains(element) || _player2.contains(element))) {
+        emptyTiles.add(element);
+      }
+    }
   }
 
   bool isWinning(int element) {
-    player1.add(element);
-    player2.add(element);
+    _player1.add(element);
+    _player2.add(element);
     bool isWin;
-    if ((player1.contains(1) && player1.contains(2) && player1.contains(3)) ||
-        (player1.contains(4) && player1.contains(5) && player1.contains(6)) ||
-        (player1.contains(7) && player1.contains(8) && player1.contains(9)) ||
-        (player1.contains(1) && player1.contains(4) && player1.contains(7)) ||
-        (player1.contains(2) && player1.contains(5) && player1.contains(8)) ||
-        (player1.contains(3) && player1.contains(6) && player1.contains(9)) ||
-        (player1.contains(1) && player1.contains(5) && player1.contains(9)) ||
-        (player1.contains(3) && player1.contains(5) && player1.contains(7)) ||
-        (player2.contains(1) && player2.contains(2) && player2.contains(3)) ||
-        (player2.contains(4) && player2.contains(5) && player2.contains(6)) ||
-        (player2.contains(7) && player2.contains(8) && player2.contains(9)) ||
-        (player2.contains(1) && player2.contains(4) && player2.contains(7)) ||
-        (player2.contains(2) && player2.contains(5) && player2.contains(8)) ||
-        (player2.contains(3) && player2.contains(6) && player2.contains(9)) ||
-        (player2.contains(1) && player2.contains(5) && player2.contains(9)) ||
-        (player2.contains(3) && player2.contains(5) && player2.contains(7))) {
+    if ((_player1.contains(1) &&
+            _player1.contains(2) &&
+            _player1.contains(3)) ||
+        (_player1.contains(4) &&
+            _player1.contains(5) &&
+            _player1.contains(6)) ||
+        (_player1.contains(7) &&
+            _player1.contains(8) &&
+            _player1.contains(9)) ||
+        (_player1.contains(1) &&
+            _player1.contains(4) &&
+            _player1.contains(7)) ||
+        (_player1.contains(2) &&
+            _player1.contains(5) &&
+            _player1.contains(8)) ||
+        (_player1.contains(3) &&
+            _player1.contains(6) &&
+            _player1.contains(9)) ||
+        (_player1.contains(1) &&
+            _player1.contains(5) &&
+            _player1.contains(9)) ||
+        (_player1.contains(3) &&
+            _player1.contains(5) &&
+            _player1.contains(7)) ||
+        (_player2.contains(1) &&
+            _player2.contains(2) &&
+            _player2.contains(3)) ||
+        (_player2.contains(4) &&
+            _player2.contains(5) &&
+            _player2.contains(6)) ||
+        (_player2.contains(7) &&
+            _player2.contains(8) &&
+            _player2.contains(9)) ||
+        (_player2.contains(1) &&
+            _player2.contains(4) &&
+            _player2.contains(7)) ||
+        (_player2.contains(2) &&
+            _player2.contains(5) &&
+            _player2.contains(8)) ||
+        (_player2.contains(3) &&
+            _player2.contains(6) &&
+            _player2.contains(9)) ||
+        (_player2.contains(1) &&
+            _player2.contains(5) &&
+            _player2.contains(9)) ||
+        (_player2.contains(3) &&
+            _player2.contains(5) &&
+            _player2.contains(7))) {
       isWin = true;
     } else {
       isWin = false;
     }
-    player1.remove(element);
-    player2.remove(element);
+    _player1.remove(element);
+    _player2.remove(element);
     return isWin;
   }
 
   Future<int> checkWinner() async {
     var winner = -1;
 
-    if (player1.contains(1) && player1.contains(2) && player1.contains(3)) {
+    if (_player1.contains(1) && _player1.contains(2) && _player1.contains(3)) {
       winner = 1;
     }
 
-    if (player1.contains(4) && player1.contains(5) && player1.contains(6)) {
+    if (_player1.contains(4) && _player1.contains(5) && _player1.contains(6)) {
       winner = 1;
     }
-    if (player1.contains(7) && player1.contains(8) && player1.contains(9)) {
+    if (_player1.contains(7) && _player1.contains(8) && _player1.contains(9)) {
       winner = 1;
     }
-    if (player1.contains(1) && player1.contains(4) && player1.contains(7)) {
+    if (_player1.contains(1) && _player1.contains(4) && _player1.contains(7)) {
       winner = 1;
     }
-    if (player1.contains(2) && player1.contains(5) && player1.contains(8)) {
+    if (_player1.contains(2) && _player1.contains(5) && _player1.contains(8)) {
       winner = 1;
     }
-    if (player1.contains(3) && player1.contains(6) && player1.contains(9)) {
+    if (_player1.contains(3) && _player1.contains(6) && _player1.contains(9)) {
       winner = 1;
     }
-    if (player1.contains(1) && player1.contains(5) && player1.contains(9)) {
+    if (_player1.contains(1) && _player1.contains(5) && _player1.contains(9)) {
       winner = 1;
     }
-    if (player1.contains(3) && player1.contains(5) && player1.contains(7)) {
+    if (_player1.contains(3) && _player1.contains(5) && _player1.contains(7)) {
       winner = 1;
     }
     //
 
-    if (player2.contains(1) && player2.contains(2) && player2.contains(3)) {
+    if (_player2.contains(1) && _player2.contains(2) && _player2.contains(3)) {
       winner = 2;
     }
-    if (player2.contains(4) && player2.contains(5) && player2.contains(6)) {
+    if (_player2.contains(4) && _player2.contains(5) && _player2.contains(6)) {
       winner = 2;
     }
-    if (player2.contains(7) && player2.contains(8) && player2.contains(9)) {
+    if (_player2.contains(7) && _player2.contains(8) && _player2.contains(9)) {
       winner = 2;
     }
-    if (player2.contains(1) && player2.contains(4) && player2.contains(7)) {
+    if (_player2.contains(1) && _player2.contains(4) && _player2.contains(7)) {
       winner = 2;
     }
-    if (player2.contains(2) && player2.contains(5) && player2.contains(8)) {
+    if (_player2.contains(2) && _player2.contains(5) && _player2.contains(8)) {
       winner = 2;
     }
-    if (player2.contains(3) && player2.contains(6) && player2.contains(9)) {
+    if (_player2.contains(3) && _player2.contains(6) && _player2.contains(9)) {
       winner = 2;
     }
-    if (player2.contains(1) && player2.contains(5) && player2.contains(9)) {
+    if (_player2.contains(1) && _player2.contains(5) && _player2.contains(9)) {
       winner = 2;
     }
-    if (player2.contains(3) && player2.contains(5) && player2.contains(7)) {
+    if (_player2.contains(3) && _player2.contains(5) && _player2.contains(7)) {
       winner = 2;
     }
 
     return winner;
   }
 
-  void restartGame() {
+  void _restartGame() {
     setState(() {
-      buttonList = initiateBoard();
+      _buttonList = _initiateBoard();
+    });
+  }
+
+  void _resetScore() {
+    Provider.of<ScoreData>(context, listen: false).scoreEmpty();
+    setState(() {
+      _buttonList = _initiateBoard();
     });
   }
 
@@ -254,19 +314,11 @@ class _GameBoardState extends State<GameBoard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextButton(
-          onPressed: () {
-            restartGame();
-          },
-          child: Text(
-            'restart',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        Expanded(
+        Flexible(
+          flex: 4,
           child: GridView.builder(
               padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-              itemCount: buttonList.length,
+              itemCount: _buttonList.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 1,
@@ -274,19 +326,19 @@ class _GameBoardState extends State<GameBoard> {
                   mainAxisSpacing: 10),
               itemBuilder: (ctx, index) {
                 return GestureDetector(
-                  onTap: buttonList[index].isEnabled == false
+                  onTap: _buttonList[index].isEnabled == false
                       ? () {
-                          playGame(buttonList[index]);
+                          _playGame(_buttonList[index]);
                         }
                       : () {},
                   child: Container(
                     alignment: Alignment.center,
-                    child: buttonList[index].text == ''
-                        ? Text(buttonList[index].text)
+                    child: _buttonList[index].text == ''
+                        ? Text(_buttonList[index].text)
                         : Image.asset(
-                            buttonList[index].text == 'X'
+                            _buttonList[index].text == 'X'
                                 ? 'images/x_pic.png'
-                                : buttonList[index].text == 'O'
+                                : _buttonList[index].text == 'O'
                                     ? 'images/o_pic.png'
                                     : '',
                             fit: BoxFit.contain,
@@ -298,6 +350,11 @@ class _GameBoardState extends State<GameBoard> {
                   ),
                 );
               }),
+        ),
+        Flexible(
+          flex: 1,
+          child: GameBoardButtons(
+              restartGame: _restartGame, resetScore: _resetScore),
         ),
       ],
     );

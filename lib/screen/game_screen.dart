@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_toe_game/screen/select_difficulty_screen.dart';
+import 'package:tic_toe_game/screen/select_names_screen.dart';
 import 'package:tic_toe_game/widgets/gamescreen_title_container.dart';
 
 import '/widgets/glowing_button.dart';
@@ -40,7 +41,10 @@ class GameScreen extends StatelessWidget {
                   color1: Colors.yellow,
                   color2: Colors.orange,
                   text: 'Local Multiplayer',
-                  navigate: () {},
+                  navigate: () {
+                     Navigator.of(context)
+                         .pushReplacementNamed(SelectNameScreen.routeName);
+                  },
                   height: deviceSize.height * 0.06,
                   width: deviceSize.width * 0.7),
               const SizedBox(
