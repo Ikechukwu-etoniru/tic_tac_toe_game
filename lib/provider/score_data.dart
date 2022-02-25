@@ -8,6 +8,8 @@ class ScoreData with ChangeNotifier {
   final List<int> _easyComputerList = [];
   final List<int> _mediumComputerList = [];
   final List<int> _hardComputerList = [];
+  final List<int> _player1List = [];
+  final List<int> _player2List = [];
 
   void playerAdd(int value, Difficulty difficulty) {
     if (difficulty == Difficulty.easy) {
@@ -16,6 +18,15 @@ class ScoreData with ChangeNotifier {
       _mediumPlayerList.add(value);
     } else if (difficulty == Difficulty.hard) {
       _hardPlayerList.add(value);
+    }
+    notifyListeners();
+  }
+
+  void multiPlayerAdd(int value) {
+    if (value == 1) {
+      _player1List.add(value);
+    } else if (value == 2) {
+      _player2List.add(value);
     }
     notifyListeners();
   }
@@ -39,6 +50,19 @@ class ScoreData with ChangeNotifier {
     _mediumComputerList.clear();
     _hardComputerList.clear();
     notifyListeners();
+  }
+
+  void multiPlayerScoreEmpty() {
+    _player1List.clear();
+    _player2List.clear();
+  }
+
+  int get player1Score {
+    return _player1List.length;
+  }
+
+  int get player2Score {
+    return _player2List.length;
   }
 
   int getPlayerScore(Difficulty difficulty) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tic_toe_game/screen/select_difficulty_screen.dart';
-import 'package:tic_toe_game/screen/select_names_screen.dart';
-import 'package:tic_toe_game/widgets/gamescreen_title_container.dart';
 
+import '/screen/select_difficulty_screen.dart';
+import '/screen/select_names_screen.dart';
+import '/widgets/gamescreen_title_container.dart';
 import '/widgets/glowing_button.dart';
 
 class GameScreen extends StatelessWidget {

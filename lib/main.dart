@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         routes: {
           SelectDifficultyScreen.routeName: (ctx) =>
               const SelectDifficultyScreen(),
-          SelectNameScreen.routeName: (ctx) => const SelectNameScreen()
+          SelectNameScreen.routeName: (ctx) => SelectNameScreen()
         },
       ),
     );
