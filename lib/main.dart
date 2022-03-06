@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tic_toe_game/screen/select_names_screen.dart';
+import 'package:tic_toe_game/screen/online_multiplayer_game_screen.dart';
 
+import '/screen/select_names_screen.dart';
 import '/provider/score_data.dart';
 import '/screen/select_difficulty_screen.dart';
 import '/screen/game_screen.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         routes: {
           SelectDifficultyScreen.routeName: (ctx) =>
               const SelectDifficultyScreen(),
-          SelectNameScreen.routeName: (ctx) => SelectNameScreen()
+          SelectNameScreen.routeName: (ctx) => const SelectNameScreen(),
+          OnlineGameScreen.routeName: (ctx) =>  OnlineGameScreen()
         },
       ),
     );

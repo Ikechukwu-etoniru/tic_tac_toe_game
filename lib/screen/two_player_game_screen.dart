@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tic_toe_game/screen/game_screen.dart';
-import 'package:tic_toe_game/widgets/multiplayer_score_board.dart';
-import 'package:tic_toe_game/widgets/player_container.dart';
+
+import '/screen/game_screen.dart';
+import '/widgets/multiplayer_game_board.dart';
+import '/widgets/multiplayer_score_board.dart';
+import '/widgets/player_container.dart';
 
 class TwoPlayerGameScreen extends StatelessWidget {
   final String player1;
@@ -54,7 +56,7 @@ class TwoPlayerGameScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(40),
                 color: const Color(0xff6c44d4),
               ),
-              // child: GameBoard(difficulty),
+              child: MultiPlayerGameBoard(player1: player1, player2: player2),
             ),
           ),
         ],

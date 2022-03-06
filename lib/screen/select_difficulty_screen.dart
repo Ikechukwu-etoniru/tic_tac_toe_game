@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tic_toe_game/screen/single_player_game_screen.dart';
 
+import '/screen/single_player_game_screen.dart';
 import '/screen/app_drawer.dart';
 import '/screen/game_screen.dart';
 

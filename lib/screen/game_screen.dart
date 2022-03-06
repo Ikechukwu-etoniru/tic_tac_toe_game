@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '/screen/online_multiplayer_game_screen.dart';
 import '/screen/select_difficulty_screen.dart';
 import '/screen/select_names_screen.dart';
 import '/widgets/gamescreen_title_container.dart';
@@ -29,8 +30,8 @@ class GameScreen extends StatelessWidget {
                   color2: Colors.purple,
                   text: 'Single Player',
                   navigate: () {
-                     Navigator.of(context)
-                         .pushReplacementNamed(SelectDifficultyScreen.routeName);
+                    Navigator.of(context)
+                        .pushReplacementNamed(SelectDifficultyScreen.routeName);
                   },
                   height: deviceSize.height * 0.06,
                   width: deviceSize.width * 0.7),
@@ -42,8 +43,8 @@ class GameScreen extends StatelessWidget {
                   color2: Colors.orange,
                   text: 'Local Multiplayer',
                   navigate: () {
-                     Navigator.of(context)
-                         .pushReplacementNamed(SelectNameScreen.routeName);
+                    Navigator.of(context)
+                        .pushReplacementNamed(SelectNameScreen.routeName);
                   },
                   height: deviceSize.height * 0.06,
                   width: deviceSize.width * 0.7),
@@ -54,7 +55,10 @@ class GameScreen extends StatelessWidget {
                   color1: Colors.cyan,
                   color2: Colors.green,
                   text: 'Online Multiplayer',
-                  navigate: () {},
+                  navigate: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(OnlineGameScreen.routeName);
+                  },
                   height: deviceSize.height * 0.06,
                   width: deviceSize.width * 0.7),
             ],

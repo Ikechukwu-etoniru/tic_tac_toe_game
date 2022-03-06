@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tic_toe_game/screen/game_screen.dart';
+
+import '/screen/game_screen.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title;

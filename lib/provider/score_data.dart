@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tic_toe_game/screen/select_difficulty_screen.dart';
+
+import '/screen/select_difficulty_screen.dart';
 
 class ScoreData with ChangeNotifier {
   final List<int> _easyPlayerList = [];
@@ -55,6 +56,7 @@ class ScoreData with ChangeNotifier {
   void multiPlayerScoreEmpty() {
     _player1List.clear();
     _player2List.clear();
+    notifyListeners();
   }
 
   int get player1Score {

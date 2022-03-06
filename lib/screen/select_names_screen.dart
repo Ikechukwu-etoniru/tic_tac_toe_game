@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:tic_toe_game/screen/two_player_game_screen.dart';
 
+import '/screen/two_player_game_screen.dart';
 import '/screen/app_drawer.dart';
 import '/screen/game_screen.dart';
 
-class SelectNameScreen extends StatelessWidget {
+class SelectNameScreen extends StatefulWidget {
   static const routeName = '/select_name_screen.dart';
-  SelectNameScreen({Key? key}) : super(key: key);
+  const SelectNameScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SelectNameScreen> createState() => _SelectNameScreenState();
+}
+
+class _SelectNameScreenState extends State<SelectNameScreen> {
   var player1 = TextEditingController();
+
   var player2 = TextEditingController();
 
   @override
@@ -59,12 +65,13 @@ class SelectNameScreen extends StatelessWidget {
               height: deviceHeight * 0.1,
               width: deviceWidth * 0.9,
               child: TextField(
-                maxLength: 20,
+                textCapitalization: TextCapitalization.sentences,
+                maxLength: 15,
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 2),
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.text,
                 controller: player1,
                 onSubmitted: (value) {
                   FocusScope.of(context).unfocus();
@@ -122,7 +129,8 @@ class SelectNameScreen extends StatelessWidget {
               height: deviceHeight * 0.1,
               width: deviceWidth * 0.9,
               child: TextField(
-                maxLength: 20,
+                textCapitalization: TextCapitalization.sentences,
+                maxLength: 15,
                 style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -196,6 +204,23 @@ class StartButton extends StatefulWidget {
 }
 
 class _StartButtonState extends State<StartButton> {
+  void showErrorSnackBar(BuildContext context, String player) {
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$player has no name'),
+        backgroundColor: Colors.redAccent,
+        duration: const Duration(seconds: 3),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        elevation: 25,
+        dismissDirection: DismissDirection.startToEnd,
+        // margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      ),
+    );
+  }
+
   var onTapped = false;
   @override
   Widget build(BuildContext context) {
@@ -220,6 +245,14 @@ class _StartButtonState extends State<StartButton> {
               onTapped = false;
             });
           });
+        } else if (widget.player1.text.isEmpty && widget.player2.text.isEmpty) {
+          showErrorSnackBar(context, 'Player 1 and Player 2');
+        } else if (widget.player1.text.isEmpty &&
+            widget.player2.text.isNotEmpty) {
+          showErrorSnackBar(context, 'Player 1');
+        } else if (widget.player2.text.isEmpty &&
+            widget.player1.text.isNotEmpty) {
+          showErrorSnackBar(context, 'Player 2');
         }
       },
       child: Container(
