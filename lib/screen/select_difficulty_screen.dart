@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '/screen/single_player_game_screen.dart';
 import '/screen/app_drawer.dart';
-import '/screen/game_screen.dart';
 
 enum Difficulty { easy, medium, hard }
 
@@ -15,7 +14,6 @@ class SelectDifficultyScreen extends StatelessWidget {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: GameScreen.gameColor,
       drawer: const AppDrawer(),
       appBar: AppBar(),
       body: Column(

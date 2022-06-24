@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '/screen/game_screen.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title;
@@ -11,7 +10,6 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: GameScreen.gameColor,
       elevation: 30,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),

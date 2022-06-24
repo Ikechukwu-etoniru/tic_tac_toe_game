@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tic_toe_game/utils/colors.dart';
 
 import '/provider/score_data.dart';
 import '/widgets/game_board_buttons.dart';
 import '/screen/select_difficulty_screen.dart';
-import '/screen/game_screen.dart';
 import '/widgets/custom_dialog.dart';
 import '/models/game_tile_model.dart';
 
@@ -156,7 +156,7 @@ class _GameBoardState extends State<GameBoard> {
       }
     } else if (winning.length > 1) {
       // AI block or win logic
-      _playGame(_buttonList[(winning[1]) - 1]);
+      _playGame(_buttonList[(winning[0]) - 1]);
     } else {
       _playGame(_buttonList[(winning[0]) - 1]);
     }
@@ -164,8 +164,6 @@ class _GameBoardState extends State<GameBoard> {
 
   void _hardAiPlay() async {
     await Future.delayed(const Duration(seconds: 1));
-
-    // get all the free space on the board
     List<int> emptyTiles = [];
     List<int> list = List.generate(9, (index) {
       return index + 1;
@@ -175,6 +173,28 @@ class _GameBoardState extends State<GameBoard> {
       if (!(_player1.contains(element) || _player2.contains(element))) {
         emptyTiles.add(element);
       }
+    }
+    // List of tiles that should be blocked or used to win
+    var winning = emptyTiles.where((element) {
+      return isWinning(element) == true;
+    }).toList();
+
+    if (winning.isEmpty) {
+      var random = Random();
+      if (emptyTiles.isEmpty) {
+        // This if check is to prevent range error by passing 0 value to random.nextInt
+      } else {
+        var randomIndex = random.nextInt(emptyTiles.length);
+        var tileId = emptyTiles[randomIndex];
+        var aiTile = _buttonList.indexWhere((element) => element.id == tileId);
+
+        _playGame(_buttonList[aiTile]);
+      }
+    } else if (winning.length > 1) {
+      // AI block or win logic
+      _playGame(_buttonList[(winning[0]) - 1]);
+    } else {
+      _playGame(_buttonList[(winning[0]) - 1]);
     }
   }
 
@@ -314,6 +334,9 @@ class _GameBoardState extends State<GameBoard> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(
+          height: 5,
+        ),
         Flexible(
           flex: 4,
           child: GridView.builder(
@@ -344,7 +367,7 @@ class _GameBoardState extends State<GameBoard> {
                             fit: BoxFit.contain,
                           ),
                     decoration: BoxDecoration(
-                      color: GameScreen.gameColor,
+                      color: MyColors.darkModeScaffoldColor,
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),

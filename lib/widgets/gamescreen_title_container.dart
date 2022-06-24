@@ -47,7 +47,7 @@ class GameTitleContainer extends StatelessWidget {
                 colorText('E', Colors.yellow),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

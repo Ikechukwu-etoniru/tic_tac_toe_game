@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '/screen/two_player_game_screen.dart';
 import '/screen/app_drawer.dart';
-import '/screen/game_screen.dart';
 
 class SelectNameScreen extends StatefulWidget {
   static const routeName = '/select_name_screen.dart';
@@ -22,7 +21,6 @@ class _SelectNameScreenState extends State<SelectNameScreen> {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: GameScreen.gameColor,
       drawer: const AppDrawer(),
       appBar: AppBar(),
       body: Container(

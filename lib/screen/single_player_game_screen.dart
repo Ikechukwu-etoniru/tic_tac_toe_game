@@ -4,7 +4,6 @@ import '/widgets/player_container.dart';
 import '/widgets/score_board.dart';
 import '/screen/select_difficulty_screen.dart';
 import '/widgets/game_board.dart';
-import '/screen/game_screen.dart';
 
 class SinglePlayerGameScreen extends StatelessWidget {
   final Difficulty difficulty;
@@ -15,7 +14,6 @@ class SinglePlayerGameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final topContainerHeight = MediaQuery.of(context).size.height * 0.25;
     return Scaffold(
-      backgroundColor: GameScreen.gameColor,
       appBar: AppBar(),
       body: Column(
         children: [

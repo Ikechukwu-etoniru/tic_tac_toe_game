@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '/screen/game_screen.dart';
 import '/widgets/multiplayer_game_board.dart';
 import '/widgets/multiplayer_score_board.dart';
 import '/widgets/player_container.dart';
@@ -16,7 +15,6 @@ class TwoPlayerGameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final topContainerHeight = MediaQuery.of(context).size.height * 0.25;
     return Scaffold(
-      backgroundColor: GameScreen.gameColor,
       appBar: AppBar(),
       body: Column(
         children: [

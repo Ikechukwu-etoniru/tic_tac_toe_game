@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_toe_game/screen/code_multiplayer_screen.dart';
 
-import '/screen/game_screen.dart';
 import '/screen/app_drawer.dart';
 
 class OnlineGameScreen extends StatelessWidget {
@@ -15,7 +14,6 @@ class OnlineGameScreen extends StatelessWidget {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: GameScreen.gameColor,
       drawer: const AppDrawer(),
       appBar: AppBar(),
       body: Container(

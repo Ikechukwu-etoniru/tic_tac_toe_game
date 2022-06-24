@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tic_toe_game/utils/colors.dart';
 
 import '/provider/score_data.dart';
 import '/widgets/game_board_buttons.dart';
-import '/screen/game_screen.dart';
 import '/widgets/custom_dialog.dart';
 import '/models/game_tile_model.dart';
 
@@ -198,7 +198,7 @@ class _MultiPlayerGameBoardState extends State<MultiPlayerGameBoard> {
                             fit: BoxFit.contain,
                           ),
                     decoration: BoxDecoration(
-                      color: GameScreen.gameColor,
+                      color: MyColors.darkModeScaffoldColor,
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
