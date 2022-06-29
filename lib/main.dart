@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tic_toe_game/screen/future_update_screen.dart';
 import 'package:tic_toe_game/screen/online_multiplayer_game_screen.dart';
+import 'package:tic_toe_game/screen/statistics_screen.dart';
 import 'package:tic_toe_game/utils/colors.dart';
 
 import '/screen/select_names_screen.dart';
@@ -10,7 +11,9 @@ import '/provider/score_data.dart';
 import '/screen/select_difficulty_screen.dart';
 import '/screen/game_screen.dart';
 
-void main() {
+
+
+void main() {  
   runApp(
     const MyApp(),
   );
@@ -37,6 +40,7 @@ class _MyAppState extends State<MyApp> {
           title: 'Flutter Demo',
           home: const GameScreen(),
           theme: ThemeData(
+            fontFamily: 'Poppins',
               primarySwatch: Colors.purple,
               scaffoldBackgroundColor: MyColors.darkModeScaffoldColor,
               appBarTheme: const AppBarTheme(
@@ -47,7 +51,8 @@ class _MyAppState extends State<MyApp> {
                 const SelectDifficultyScreen(),
             SelectNameScreen.routeName: (ctx) => const SelectNameScreen(),
             OnlineGameScreen.routeName: (ctx) => OnlineGameScreen(),
-            FutureUpdateScreen.routeName: (ctx) => const FutureUpdateScreen()
+            FutureUpdateScreen.routeName: (ctx) => const FutureUpdateScreen(),
+            StatisticsScreen.routeName: (ctx) => const StatisticsScreen()
           },
         ));
   }

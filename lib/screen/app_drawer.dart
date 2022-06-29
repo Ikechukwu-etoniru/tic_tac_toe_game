@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:tic_toe_game/screen/statistics_screen.dart';
 import 'package:tic_toe_game/utils/colors.dart';
+import 'package:tic_toe_game/utils/text.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -32,7 +36,8 @@ class AppDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/');
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/', (route) => false);
             },
             title: const Text(
               'Main Menu',
@@ -44,7 +49,9 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(StatisticsScreen.routeName);
+            },
             title: const Text(
               'Statistics',
               style: TextStyle(color: Colors.white, fontSize: 17),
@@ -55,24 +62,28 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Share.share(TextHelper.appUrl);
+            },
             title: const Text(
-              'Share',
+              'Share App',
               style: TextStyle(color: Colors.white, fontSize: 17),
             ),
             trailing: const Icon(
-              Icons.history,
+              Icons.share,
               color: Colors.white,
             ),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              SystemNavigator.pop();
+            },
             title: const Text(
-              'Sound Settings',
+              'Close App',
               style: TextStyle(color: Colors.white, fontSize: 17),
             ),
             trailing: const Icon(
-              Icons.history,
+              Icons.logout_rounded,
               color: Colors.white,
             ),
           ),

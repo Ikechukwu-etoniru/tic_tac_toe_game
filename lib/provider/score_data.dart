@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '/screen/select_difficulty_screen.dart';
 
@@ -21,6 +22,93 @@ class ScoreData with ChangeNotifier {
       _hardPlayerList.add(value);
     }
     notifyListeners();
+  }
+
+  void addWinToDb(int value, Difficulty difficulty) async {
+    final db = await SharedPreferences.getInstance();
+    if (difficulty == Difficulty.easy) {
+      if (!db.containsKey('easyWin')) {
+        db.setInt('easyWin', 1);
+      } else {
+        final oldScore = db.getInt('easyWin');
+        await db.remove('easyWin');
+        await db.setInt('easyWin', oldScore! + 1);
+      }
+    } else if (difficulty == Difficulty.medium) {
+      if (!db.containsKey('mediumWin')) {
+        db.setInt('mediumWin', 1);
+      } else {
+        final oldScore = db.getInt('mediumWin');
+        await db.remove('mediumWin');
+        await db.setInt('mediumWin', oldScore! + 1);
+      }
+    } else if (difficulty == Difficulty.hard) {
+      if (!db.containsKey('hardWin')) {
+        db.setInt('hardWin', 1);
+      } else {
+        final oldScore = db.getInt('hardWin');
+        await db.remove('hardWin');
+        await db.setInt('hardWin', oldScore! + 1);
+      }
+    }
+  }
+
+  void addLossToDb(int value, Difficulty difficulty) async {
+    final db = await SharedPreferences.getInstance();
+    if (difficulty == Difficulty.easy) {
+      if (!db.containsKey('easyLoss')) {
+        db.setInt('easyLoss', 1);
+      } else {
+        final oldScore = db.getInt('easyLoss');
+        await db.remove('easyLoss');
+        await db.setInt('easyLoss', oldScore! + 1);
+      }
+    } else if (difficulty == Difficulty.medium) {
+      if (!db.containsKey('mediumLoss')) {
+        db.setInt('mediumLoss', 1);
+      } else {
+        final oldScore = db.getInt('mediumLoss');
+        await db.remove('mediumLoss');
+        await db.setInt('mediumLoss', oldScore! + 1);
+      }
+    } else if (difficulty == Difficulty.hard) {
+      if (!db.containsKey('hardLoss')) {
+        db.setInt('hardLoss', 1);
+      } else {
+        final oldScore = db.getInt('hardLoss');
+        await db.remove('hardLoss');
+        await db.setInt('hardLoss', oldScore! + 1);
+      }
+    }
+  }
+
+  void addDrawToDb(int value, Difficulty difficulty) async {
+    final db = await SharedPreferences.getInstance();
+    if (difficulty == Difficulty.easy) {
+      if (!db.containsKey('easyDraw')) {
+        db.setInt('easyDraw', 1);
+      } else {
+        final oldScore = db.getInt('easyDraw');
+        await db.remove('easyDraw');
+        await db.setInt('easyDraw', oldScore! + 1);
+      }
+    } else if (difficulty == Difficulty.medium) {
+      if (!db.containsKey('mediumDraw')) {
+        db.setInt('mediumDraw', 1);
+      } else {
+        final oldScore = db.getInt('mediumDraw');
+        await db.remove('mediumDraw');
+        await db.setInt('mediumDraw', oldScore! + 1);
+      }
+    } else if (difficulty == Difficulty.hard) {
+      if (!db.containsKey('hardDraw')) {
+        db.setInt('hardDraw', 1);
+      } else {
+        final oldScore = db.getInt('hardDraw');
+        await db.remove('hardDraw');
+        await db.setInt('hardDraw', oldScore! + 1);
+      }
+    }
   }
 
   void multiPlayerAdd(int value) {

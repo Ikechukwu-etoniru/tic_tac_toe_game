@@ -66,6 +66,8 @@ class _GameBoardState extends State<GameBoard> {
       // Update scores
       Provider.of<ScoreData>(context, listen: false)
           .playerAdd(1, widget.difficulty);
+      Provider.of<ScoreData>(context, listen: false)
+          .addWinToDb(1, widget.difficulty);
       showDialog(
           context: context,
           builder: (ctx) {
@@ -76,6 +78,8 @@ class _GameBoardState extends State<GameBoard> {
       // Update scores
       Provider.of<ScoreData>(context, listen: false)
           .computerAdd(1, widget.difficulty);
+          Provider.of<ScoreData>(context, listen: false)
+          .addLossToDb(1, widget.difficulty);
       showDialog(
           context: context,
           builder: (ctx) {
@@ -84,6 +88,8 @@ class _GameBoardState extends State<GameBoard> {
           });
     } else if (winner == -1 &&
         _buttonList.every((element) => element.isEnabled == true)) {
+          Provider.of<ScoreData>(context, listen: false)
+          .addDrawToDb(1, widget.difficulty);
       showDialog(
           context: context,
           builder: (ctx) {

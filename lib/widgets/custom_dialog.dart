@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tic_toe_game/screen/statistics_screen.dart';
+import 'package:tic_toe_game/utils/colors.dart';
 
 
 class CustomDialog extends StatelessWidget {
@@ -10,6 +12,7 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: MyColors.darkModeScaffoldColor,
       elevation: 30,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
