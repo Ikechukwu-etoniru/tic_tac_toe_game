@@ -1,3 +1,3 @@
 class TextHelper {
-  static const appUrl = 'This is my app url';
+  static const appUrl = 'https://play.google.com/store/apps/details?id=com.ilated.tic_toe_game';
 }
